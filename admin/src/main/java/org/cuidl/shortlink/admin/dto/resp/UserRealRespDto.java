@@ -1,11 +1,9 @@
 package org.cuidl.shortlink.admin.dto.resp;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
-import org.cuidl.shortlink.admin.common.serialize.PhoneDesensitizationSerializer;
 
 @Data
-public class UserRespDto {
+public class UserRealRespDto {
 
     /**
      * id
@@ -25,7 +23,6 @@ public class UserRespDto {
     /**
      * 手机号
      */
-    @JsonSerialize(using = PhoneDesensitizationSerializer.class)
     private String phone;
 
     /**

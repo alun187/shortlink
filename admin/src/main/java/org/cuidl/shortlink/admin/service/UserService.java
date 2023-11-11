@@ -9,5 +9,5 @@ import org.cuidl.shortlink.admin.dto.resp.UserRespDto;
  * 用户接口类
  */
 public interface UserService extends IService<UserDo> {
-    Result<UserRespDto> getUser(String username);
+    UserRespDto getUser(String username);
 }
