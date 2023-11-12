@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.cuidl.shortlink.admin.common.convention.exception.ClientException;
 import org.cuidl.shortlink.admin.common.enums.UserErrorCodeEnum;
 import org.cuidl.shortlink.admin.dao.entity.UserDo;
@@ -33,6 +34,7 @@ import static org.cuidl.shortlink.admin.common.enums.UserErrorCodeEnum.USER_NULL
  * 用户接口实现类
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements UserService {
 
@@ -98,11 +100,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
         String uuid = UUID.randomUUID().toString();
         stringRedisTemplate.opsForHash().put("login_" + requestParam.getUsername(), uuid, JSON.toJSONString(userDo));
         stringRedisTemplate.expire("login_" + requestParam.getUsername(), 30L, TimeUnit.MINUTES);
+        log.info("【{}】 {}", requestParam.getUsername(), "登录系统");
         return new UserLoginRespDto(uuid);
     }
 
     @Override
     public Boolean checkLogin(String username, String token) {
         return stringRedisTemplate.opsForHash().get("login_" + username, token) != null;
+    }
+
+    @Override
+    public void logout(String username, String token) {
+        if (checkLogin(username, token)) {
+            stringRedisTemplate.delete("login_" + username);
+            log.info("【{}】 {}", username, "退出系统");
+            return;
+        }
+        throw new ClientException("token不存在或用户未登录");
     }
 }
