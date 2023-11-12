@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.cuidl.shortlink.admin.common.convention.errorcode.BaseErrorCode;
 import org.cuidl.shortlink.admin.common.convention.exception.ClientException;
 import org.cuidl.shortlink.admin.common.enums.UserErrorCodeEnum;
 import org.cuidl.shortlink.admin.dao.entity.UserDo;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import static org.cuidl.shortlink.admin.common.constant.RedisCacheConstant.LOCK_USER_REGISTER_KEY;
 import static org.cuidl.shortlink.admin.common.enums.UserErrorCodeEnum.USER_NAME_EXIST;
+import static org.cuidl.shortlink.admin.common.enums.UserErrorCodeEnum.USER_NULL;
 
 /**
  * 用户接口实现类
@@ -36,7 +36,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
         LambdaQueryWrapper<UserDo> queryWrapper = Wrappers.lambdaQuery(UserDo.class).eq(UserDo::getUsername, username);
         UserDo userDo = baseMapper.selectOne(queryWrapper);
         if (userDo == null) {
-            throw new ClientException(BaseErrorCode.USER_NULL);
+            throw new ClientException(USER_NULL);
         }
         return BeanUtil.toBean(userDo, UserRespDto.class);
     }
