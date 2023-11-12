@@ -10,6 +10,7 @@ import org.cuidl.shortlink.admin.common.enums.UserErrorCodeEnum;
 import org.cuidl.shortlink.admin.dao.entity.UserDo;
 import org.cuidl.shortlink.admin.dao.mapper.UserMapper;
 import org.cuidl.shortlink.admin.dto.req.UserRegisterReqDto;
+import org.cuidl.shortlink.admin.dto.req.UserUpdateReqDto;
 import org.cuidl.shortlink.admin.dto.resp.UserRespDto;
 import org.cuidl.shortlink.admin.service.UserService;
 import org.redisson.api.RBloomFilter;
@@ -65,5 +66,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
         } finally {
             lock.unlock();
         }
+    }
+
+    @Override
+    public void update(UserUpdateReqDto requestParam) {
+        //TODO 判断用户名是否是单当前登录用户
+        LambdaQueryWrapper<UserDo> queryWrapper = Wrappers.lambdaQuery(UserDo.class).eq(UserDo::getUsername, requestParam.getUsername());
+        baseMapper.update(BeanUtil.toBean(requestParam, UserDo.class), queryWrapper);
     }
 }

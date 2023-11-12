@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.cuidl.shortlink.admin.common.convention.result.Result;
 import org.cuidl.shortlink.admin.common.convention.result.Results;
 import org.cuidl.shortlink.admin.dto.req.UserRegisterReqDto;
+import org.cuidl.shortlink.admin.dto.req.UserUpdateReqDto;
 import org.cuidl.shortlink.admin.dto.resp.UserRealRespDto;
 import org.cuidl.shortlink.admin.dto.resp.UserRespDto;
 import org.cuidl.shortlink.admin.service.UserService;
@@ -47,6 +48,15 @@ public class UserController {
     @PostMapping("user")
     public Result<Void> register(@RequestBody UserRegisterReqDto requestParam) {
         userService.register(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * 用户信息修改
+     */
+    @PutMapping("user")
+    public Result<Void> register(@RequestBody UserUpdateReqDto requestParam) {
+        userService.update(requestParam);
         return Results.success();
     }
 }

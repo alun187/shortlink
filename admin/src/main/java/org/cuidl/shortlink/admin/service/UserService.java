@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.cuidl.shortlink.admin.common.convention.result.Result;
 import org.cuidl.shortlink.admin.dao.entity.UserDo;
 import org.cuidl.shortlink.admin.dto.req.UserRegisterReqDto;
+import org.cuidl.shortlink.admin.dto.req.UserUpdateReqDto;
 import org.cuidl.shortlink.admin.dto.resp.UserRespDto;
 
 /**
@@ -33,4 +34,11 @@ public interface UserService extends IService<UserDo> {
      * @param requestParam 用户请求参数实体
      */
     void register(UserRegisterReqDto requestParam);
+
+    /**
+     * 用户信息修改
+     *
+     * @param requestParam 用户修改参数
+     */
+    void update(UserUpdateReqDto requestParam);
 }
