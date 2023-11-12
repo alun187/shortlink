@@ -4,8 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import lombok.RequiredArgsConstructor;
 import org.cuidl.shortlink.admin.common.convention.result.Result;
 import org.cuidl.shortlink.admin.common.convention.result.Results;
+import org.cuidl.shortlink.admin.dto.req.UserLoginReqDto;
 import org.cuidl.shortlink.admin.dto.req.UserRegisterReqDto;
 import org.cuidl.shortlink.admin.dto.req.UserUpdateReqDto;
+import org.cuidl.shortlink.admin.dto.resp.UserLoginRespDto;
 import org.cuidl.shortlink.admin.dto.resp.UserRealRespDto;
 import org.cuidl.shortlink.admin.dto.resp.UserRespDto;
 import org.cuidl.shortlink.admin.service.UserService;
@@ -58,5 +60,21 @@ public class UserController {
     public Result<Void> register(@RequestBody UserUpdateReqDto requestParam) {
         userService.update(requestParam);
         return Results.success();
+    }
+
+    /**
+     * 用户登录
+     */
+    @PostMapping("user/login")
+    public Result<UserLoginRespDto> login(@RequestBody UserLoginReqDto requestParam) {
+        return Results.success(userService.login(requestParam));
+    }
+
+    /**
+     * 判断用户是否登录
+     */
+    @GetMapping("user/check-login")
+    public Result<Boolean> checkLogin(@RequestParam("username") String username, @RequestParam("token") String token) {
+        return Results.success(userService.checkLogin(username, token));
     }
 }
