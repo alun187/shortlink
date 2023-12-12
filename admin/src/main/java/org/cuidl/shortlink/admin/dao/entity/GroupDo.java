@@ -1,16 +1,21 @@
 package org.cuidl.shortlink.admin.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import lombok.*;
+import org.cuidl.shortlink.admin.common.database.BaseDo;
 
 import java.util.Date;
 
 /**
  * 短连接分组实体
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("t_group")
-public class GroupDo {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class GroupDo extends BaseDo {
     /**
      * id
      */
@@ -35,19 +40,4 @@ public class GroupDo {
      * 分组排序
      */
     private Integer sortOrder;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    /**
-     * 删除标识 0：未删除 1：已删除
-     */
-    private int delFlag;
 }
