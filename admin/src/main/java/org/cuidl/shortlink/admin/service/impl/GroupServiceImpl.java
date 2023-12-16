@@ -24,7 +24,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDo> implemen
             gid = getRandomNumber();
         } while (!isRepeat(gid));
         // todo 用户名需要填充
-        GroupDo group = GroupDo.builder().name(groupName).username(null).gid(gid).build();
+        GroupDo group = GroupDo.builder().name(groupName).username(null).gid(gid).sortOrder(0).build();
         baseMapper.insert(group);
     }
 
