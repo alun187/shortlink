@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.cuidl.shortlink.admin.common.biz.user.UserContext;
+import org.cuidl.shortlink.admin.common.database.BaseDo;
 import org.cuidl.shortlink.admin.dao.entity.GroupDo;
 import org.cuidl.shortlink.admin.dao.mapper.GroupMapper;
+import org.cuidl.shortlink.admin.dto.req.GroupSortReqDto;
 import org.cuidl.shortlink.admin.dto.req.UpdateGroupReqDto;
 import org.cuidl.shortlink.admin.dto.resp.GroupLIstRespDto;
 import org.cuidl.shortlink.admin.service.GroupService;
@@ -53,6 +55,31 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDo> implemen
         GroupDo groupDo = new GroupDo();
         groupDo.setName(requestParam.getName());
         baseMapper.update(groupDo, groupDoLambdaQueryWrapper);
+    }
+
+    @Override
+    public void deleteGroup(String gid) {
+        LambdaQueryWrapper<GroupDo> groupDoLambdaQueryWrapper = Wrappers.lambdaQuery(GroupDo.class)
+                .eq(BaseDo::getDelFlag, 0)
+                .eq(GroupDo::getUsername, UserContext.getUsername())
+                .eq(GroupDo::getGid, gid);
+        GroupDo groupDo = new GroupDo();
+        groupDo.setDelFlag(1);
+        baseMapper.update(groupDo, groupDoLambdaQueryWrapper);
+    }
+
+    @Override
+    public void groupSort(List<GroupSortReqDto> requestParam) {
+        requestParam.forEach(each -> {
+            GroupDo groupDo = GroupDo.builder()
+                    .sortOrder(each.getSortOrder())
+                    .build();
+            LambdaQueryWrapper<GroupDo> groupDoLambdaQueryWrapper = Wrappers.lambdaQuery(GroupDo.class)
+                    .eq(BaseDo::getDelFlag, 0)
+                    .eq(GroupDo::getUsername, UserContext.getUsername())
+                    .eq(GroupDo::getGid, each.getGid());
+            baseMapper.update(groupDo, groupDoLambdaQueryWrapper);
+        });
     }
 
     // 分组标识是否重复

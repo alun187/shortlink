@@ -2,6 +2,7 @@ package org.cuidl.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.cuidl.shortlink.admin.dao.entity.GroupDo;
+import org.cuidl.shortlink.admin.dto.req.GroupSortReqDto;
 import org.cuidl.shortlink.admin.dto.req.UpdateGroupReqDto;
 import org.cuidl.shortlink.admin.dto.resp.GroupLIstRespDto;
 
@@ -32,4 +33,18 @@ public interface GroupService extends IService<GroupDo> {
      * @param requestParam 参数
      */
     void updateGroupName(UpdateGroupReqDto requestParam);
+
+    /**
+     * 删除分组
+     *
+     * @param gid 参数
+     */
+    void deleteGroup(String gid);
+
+    /**
+     * 分组排序功能
+     *
+     * @param requestParam 参数
+     */
+    void groupSort(List<GroupSortReqDto> requestParam);
 }

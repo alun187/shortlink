@@ -3,6 +3,7 @@ package org.cuidl.shortlink.admin.controller;
 import lombok.RequiredArgsConstructor;
 import org.cuidl.shortlink.admin.common.convention.result.Result;
 import org.cuidl.shortlink.admin.common.convention.result.Results;
+import org.cuidl.shortlink.admin.dto.req.GroupSortReqDto;
 import org.cuidl.shortlink.admin.dto.req.SaveGroupReq;
 import org.cuidl.shortlink.admin.dto.req.UpdateGroupReqDto;
 import org.cuidl.shortlink.admin.dto.resp.GroupLIstRespDto;
@@ -44,6 +45,24 @@ public class GroupController {
     @PutMapping("name")
     public Result<Void> updateGroupName(@RequestBody UpdateGroupReqDto requestParam) {
         groupService.updateGroupName(requestParam);
+        return Results.success();
+    }
+
+    /**
+     * 删除分组
+     */
+    @DeleteMapping("name")
+    public Result<Void> deleteGroup(@RequestParam String gid) {
+        groupService.deleteGroup(gid);
+        return Results.success();
+    }
+
+    /**
+     * 修改排序
+     */
+    @PostMapping("sort")
+    public Result<Void> groupSort(@RequestBody List<GroupSortReqDto> requestParam) {
+        groupService.groupSort(requestParam);
         return Results.success();
     }
 }
