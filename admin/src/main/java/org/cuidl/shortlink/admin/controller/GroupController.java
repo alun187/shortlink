@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.cuidl.shortlink.admin.common.convention.result.Result;
 import org.cuidl.shortlink.admin.common.convention.result.Results;
 import org.cuidl.shortlink.admin.dto.req.SaveGroupReq;
+import org.cuidl.shortlink.admin.dto.req.UpdateGroupReqDto;
 import org.cuidl.shortlink.admin.dto.resp.GroupLIstRespDto;
 import org.cuidl.shortlink.admin.service.GroupService;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,14 @@ public class GroupController {
     @GetMapping("list")
     public Result<List<GroupLIstRespDto>> listGroup() {
         return Results.success(groupService.listGroup());
+    }
+
+    /**
+     * 修改分组
+     */
+    @PutMapping("name")
+    public Result<Void> updateGroupName(@RequestBody UpdateGroupReqDto requestParam) {
+        groupService.updateGroupName(requestParam);
+        return Results.success();
     }
 }

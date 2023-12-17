@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.cuidl.shortlink.admin.common.biz.user.UserContext;
 import org.cuidl.shortlink.admin.dao.entity.GroupDo;
 import org.cuidl.shortlink.admin.dao.mapper.GroupMapper;
+import org.cuidl.shortlink.admin.dto.req.UpdateGroupReqDto;
 import org.cuidl.shortlink.admin.dto.resp.GroupLIstRespDto;
 import org.cuidl.shortlink.admin.service.GroupService;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,17 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDo> implemen
                 .orderByDesc(GroupDo::getCreateTime);
         List<GroupDo> groupLIst = baseMapper.selectList(queryWrapper);
         return BeanUtil.copyToList(groupLIst, GroupLIstRespDto.class);
+    }
+
+    @Override
+    public void updateGroupName(UpdateGroupReqDto requestParam) {
+        LambdaQueryWrapper<GroupDo> groupDoLambdaQueryWrapper = Wrappers.lambdaQuery(GroupDo.class)
+                .eq(GroupDo::getDelFlag, 0)
+                .eq(GroupDo::getUsername, UserContext.getUsername())
+                .eq(GroupDo::getGid, requestParam.getGid());
+        GroupDo groupDo = new GroupDo();
+        groupDo.setName(requestParam.getName());
+        baseMapper.update(groupDo, groupDoLambdaQueryWrapper);
     }
 
     // 分组标识是否重复
