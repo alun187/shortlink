@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/shortlink/v1")
+@RequestMapping("/api/shortlink/admin/v1")
 public class UserController {
 
     private final UserService userService;
